@@ -18,6 +18,12 @@
     </div>
 	
 	<!-- TODO : afficher le bon menu selon la connexion  menuUser ou menuManager -->
+	<%
+		String nom = request.getParameter("nom");
+		String prenom = request.getParameter("prenom");
+		Boolean isManager = request.getParameter("isManager");
+		
+	%>
   	<jsp:include page="menuManager.jsp" />
   	
   </div><!-- /.container-fluid -->

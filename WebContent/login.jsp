@@ -7,6 +7,13 @@
 	<h2>Expeditor</h2>
 </div>
 
+<%=  
+	//error = request.getParameter("error");
+	//if (error != null){
+		
+	//}
+	%>
+
 <form class="form-horizontal vcenter">
   <div class="form-group ">
     <label for="inputEmail3" class="col-sm-2 control-label">Identifiant</label>

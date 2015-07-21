@@ -39,16 +39,26 @@ public class ConnexionServlet extends HttpServlet {
 	}
 
 	
-	private void execute(HttpServletRequest request, HttpServletResponse response) {
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp") ;
+	private void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
 		
 		EmployeDB em = new EmployeDB();
 		Employe employe = (Employe) em.getOne(login, password);
+		
+		
 		if (employe != null){
-			request.setAttribute("employe", employe);
+			request.setAttribute("nom", employe.getNom());
+			request.setAttribute("prenom", employe.getPrenom());
+			request.setAttribute("isManager", employe.getIsManager());
+			
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
+			requestDispatcher.forward(request, response) ;
 		}else{
+			String error = "Erreur de login ou de mot de passe, veuillez réessayer.";
+			request.setAttribute("error", error);
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("login.jsp");
+			requestDispatcher.forward(request, response);
 			
 		}
 		
