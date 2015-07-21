@@ -60,7 +60,7 @@ public class ConnexionServlet extends HttpServlet {
 			}else{
 				request.setAttribute("isManager", "false");
 			}
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/listeCommandes.jsp");
 			requestDispatcher.forward(request, response) ;
 		}else{
 			Object error = "Erreur de login ou de mot de passe, veuillez réessayer.";

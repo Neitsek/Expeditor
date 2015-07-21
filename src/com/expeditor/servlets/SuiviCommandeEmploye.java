@@ -43,7 +43,7 @@ public class SuiviCommandeEmploye extends HttpServlet {
 	protected void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//vérification de l'etat de la session
 		if(Connexion.verifSession(request.getSession().getAttribute("login")) == true){
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/suiviCommande.jsp");
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/manager/suiviCommande.jsp");
 			requestDispatcher.forward(request, response) ;
 		}else{
 			Object error = "vous n'êtes pas connecté, veuillez vous connecter.";
