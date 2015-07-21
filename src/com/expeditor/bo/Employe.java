@@ -1,21 +1,39 @@
 package com.expeditor.bo;
 
 public class Employe {
+	private Integer id;
 	private String nom;
 	private String prenom;
 	private String login;
 	private String password;
+	private Boolean isManager;
 	
-	private Employe() {
-		nom = "";
-		prenom = "";
+	public Employe() {
 	}
 	
-	private Employe(String nom, String prenom) {
-		
+	public Employe(Integer id, String nom, String prenom, Boolean isManager) {
+		setId(id);
+		setNom(nom);
+		setPrenom(prenom);
+		setIsManager(isManager);
 	}
 	
-	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Boolean getIsManager() {
+		return isManager;
+	}
+
+	public void setIsManager(Boolean isManager) {
+		this.isManager = isManager;
+	}
+
 	public String getNom() {
 		return nom;
 	}
