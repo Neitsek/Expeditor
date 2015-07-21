@@ -26,8 +26,8 @@ public class EmployeDB {
 		try {
 			statement = ConnectionDB.connect().prepareStatement(SELECT_ONE);
 			
-			statement.setString(0, login);
-			statement.setString(1, password);
+			statement.setString(1, login);
+			statement.setString(2, password);
 			
 			rs = statement.executeQuery();
 			
