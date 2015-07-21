@@ -51,7 +51,7 @@ public class ConnexionServlet extends HttpServlet {
 		
 		if (employe != null){
 			/* Création ou récupération de la session */
-			request.getSession().setAttribute("login", employe.getLogin());
+			request.getSession().setAttribute("login", employe);
 			
 			request.setAttribute("nom", employe.getNom());
 			request.setAttribute("prenom", employe.getPrenom());	
@@ -71,15 +71,15 @@ public class ConnexionServlet extends HttpServlet {
 		}
 		
 		//vérification de l'etat de la session
-		/*if(Connexion.verifSession(request.getSession().getAttribute("login")) == true){
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
+		if(Connexion.verifSession(request.getSession().getAttribute("login")) == true){
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/listeCommandes.jsp");
 			requestDispatcher.forward(request, response) ;
 		}else{
 			Object error = "vous n'êtes pas connecté, veuillez vous connecter.";
 			request.setAttribute("error", error);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.jsp");
 			requestDispatcher.forward(request, response) ;
-		}*/	
+		}	
 		
 	}
 }

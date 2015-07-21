@@ -1,6 +1,7 @@
 <jsp:include page="header.jsp" />
 
 <%@ page import="com.expeditor.dal.*" %>
+<%@ page import="com.expeditor.bo.*" %>
 
 <% ConnectionDB.connect(); %>
  
@@ -14,14 +15,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+      <%	
+		Employe employe = (Employe)request.getSession().getAttribute("login");
+      %>
+      
       <a class="navbar-brand" href="#">
-      	<%= request.getAttribute("nom") %> <%= request.getAttribute("prenom") %>
+      	<%= employe.getNom() %> <%= employe.getPrenom() %>
       </a>
     </div>
 		<%	
-		Object isManager = request.getAttribute("isManager");
-    	
-    	if(isManager == "true"){
+    	if(employe.getIsManager() == true){
     		%><jsp:include page="menuManager.jsp" /><%	
     	}else{
     		%><jsp:include page="menuUser.jsp" /><%	
@@ -35,8 +38,8 @@
 				class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
 					<li><a href="<%=request.getContextPath()%>/DeconnexionServlet">Deconnexion</a></li>
-				</ul></li>
-			<li><a href="#"></a></li>
+				</ul>
+			</li>
 		</ul>
   	</div>
   </div><!-- /.container-fluid -->
