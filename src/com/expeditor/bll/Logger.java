@@ -8,7 +8,7 @@ public class Logger {
 
 	public static void arret(String message) {		
 		System.err.println(message);		
-		System.exit(99);		
+		//System.exit(99);		
 	}
 	
 }
