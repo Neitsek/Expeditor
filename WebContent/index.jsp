@@ -1,11 +1,9 @@
 <jsp:include page="header.jsp" />
 
-<%@ page import="com.expeditor.dal.ConnectionDB" %>
+<%@ page import="com.expeditor.dal.*" %>
 
-<%
-ConnectionDB.connect();
-%>
-
+<% ConnectionDB.connect(); %>
+ 
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
