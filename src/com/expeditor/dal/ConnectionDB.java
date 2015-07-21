@@ -29,7 +29,7 @@ public class ConnectionDB {
 			conn = DriverManager.getConnection(dbURL);
 			if (conn != null) {
 				Logger.affiche("Connected");    		   
-			}
+			} 
 		} catch (SQLException e) {
 			Logger.arret("Connection à la base de données impossible");
 		}

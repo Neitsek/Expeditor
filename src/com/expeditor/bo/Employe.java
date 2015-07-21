@@ -17,7 +17,7 @@ public class Employe {
 		setPrenom(prenom);
 		setIsManager(isManager);
 	}
-	
+	 
 	public Integer getId() {
 		return id;
 	}

@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.expeditor.bo.Commande"%>
 <jsp:include page="header.jsp" />
@@ -6,8 +7,14 @@
 
 <%
 CommandeDB cmd = new CommandeDB();
-Commande c = new Commande(0,new Date(),"ROBERT GUENOUNE","1 rue des navigateur",1,new Date(),new Date(),"EC");
-cmd.insert_commande(c);
+//Commande c = new Commande(0,new Date(),"ROBERT GUENOUNE","1 rue des navigateur",1,new Date(),new Date(),"EC");
+//cmd.insert_commande(c);
+ArrayList etat = new ArrayList();
+etat.add("EC");
+etat.add("ATT");
+
+cmd.select_commande(etat, null, null);
+
 %>
 
  
