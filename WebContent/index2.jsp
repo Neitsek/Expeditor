@@ -6,15 +6,12 @@
 <%@ page import="com.expeditor.dal.*" %>
 
 <%
-CommandeDB cmd = new CommandeDB();
 //Commande c = new Commande(0,new Date(),"ROBERT GUENOUNE","1 rue des navigateur",1,new Date(),new Date(),"EC");
 //cmd.insert_commande(c);
-ArrayList etat = new ArrayList();
+ArrayList<String> etat = new ArrayList<String>();
 etat.add("EC");
 etat.add("ATT");
-
-cmd.select_commande(etat, null, null);
-
+CommandeDB.selectCommandes(etat, null, null);
 %>
 
  

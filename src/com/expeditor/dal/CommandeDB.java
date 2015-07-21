@@ -14,6 +14,9 @@ import com.expeditor.bo.Employe;
 
 public class CommandeDB {
 
+	private CommandeDB(){
+	}
+
 	private static final String INSERT = "insert into commande " +
 			" (date_commande,client,adresse,employe,date_debut_prepa,date_fin_prepa,etat)" +
 			" values(?,?,?,?,?,?,?)"; 
@@ -50,7 +53,7 @@ public class CommandeDB {
 	 * insertion commande 
 	 * @param commande
 	 */	 
-	public void insert_commande(Commande c) {
+	public static void insertCommande(Commande c) {
 		Connection cnx = null;
 		PreparedStatement statement = null;
 		try {	
@@ -81,40 +84,91 @@ public class CommandeDB {
 		}
 
 	}
-	
-	
-	
+
+
+
 	private static String SELECT = "SELECT * FROM Commande, Employe " +
 			"WHERE Commande.employe = Employe.id_employe ";
-	
+
 	/**
 	 * sélection des commandes	 
 	 * @param etat
 	 * @param date_debut
 	 * @param date_fin
 	 */
-	public void select_commande(ArrayList etat, Date date_debut, Date date_fin) {
-		
+	public static ArrayList<Commande> selectCommandes(ArrayList<String> listeEtat, Date date_debut, Date date_fin) {
+
 		// -- construction de la requete
-		
 		// gestion des états
-		if (etat.size()>0){
+		if (listeEtat.size()>0){
+			Logger.affiche("SELECT");
 			int i = 0;
 			SELECT += "AND etat IN(";
-			for (int j = 0; j < etat.size(); j++) {					
+			for (int j = 0; j < listeEtat.size(); j++) {					
 				i++;
-				SELECT += "'" + etat.get(j) + "'";
-				if (etat.size()!=i) {
+				SELECT += "'" + listeEtat.get(j) + "'";
+				if (listeEtat.size()!=i) {
 					SELECT +=",";
 				}
 			}
 			SELECT += ") ";
 		}
-		
+
 		// gestion de la date
 		if(date_debut!=null && date_fin!=null){
 			SELECT += "AND date_commande BETWEEN '" + Outils.pTimestamp(date_debut) + "' AND '" + Outils.pTimestamp(date_fin) + "'";	
 		}
+
+		ArrayList<Commande> listeCommande = new ArrayList<Commande>(); 
+		Connection cnx = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		try {
+			cnx = ConnectionDB.connect();
+			statement = cnx.prepareStatement(SELECT);
+			rs = statement.executeQuery();
+			while(rs.next())
+			{
+				int id_commande = rs.getInt("id_commande");
+				Date date_commande = rs.getDate("date_commande");
+				String client = rs.getString("client");
+				String adresse = rs.getString("adresse");
+				int employe = rs.getInt("employe");
+				Date date_debut_prepa = rs.getDate("date_debut_prepa");
+				Date date_fin_prepa = rs.getDate("date_fin_prepa");
+				String etat = rs.getString("etat");
+				
+				Commande commande = new Commande();
+				commande.setId_commande(id_commande);
+				commande.setDate_commande(date_commande);
+				commande.setClient(client);
+				commande.setAdresse(adresse);
+				commande.setEmploye(employe);
+				commande.setDate_debut_prepa(date_debut_prepa);
+				commande.setDate_fin_prepa(date_fin_prepa);
+				commande.setEtat(etat);
+				
+				listeCommande.add(commande);
+							
+			}
+
+			
+			
+		}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (cnx != null )
+				try {
+					cnx.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		
+		return listeCommande;
+	}
 		
 		
 	
