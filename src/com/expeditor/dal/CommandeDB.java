@@ -10,7 +10,6 @@ import java.util.Date;
 import com.expeditor.bll.Logger;
 import com.expeditor.bll.Outils;
 import com.expeditor.bo.Commande;
-import com.expeditor.bo.Employe;
 
 public class CommandeDB {
 
@@ -40,7 +39,7 @@ public class CommandeDB {
 			com.setAdresse(adresse);
 			com.setEmploye(idEmploye);
 			com.setDate_debut_prepa(dateDebutPrepa);
-			com.setDate_fin_prepa(dateDebutPrepa);
+			com.setDate_fin_prepa(dateFinPrepa);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -128,32 +127,10 @@ public class CommandeDB {
 			statement = cnx.prepareStatement(SELECT);
 			rs = statement.executeQuery();
 			while(rs.next())
-			{
-				int id_commande = rs.getInt("id_commande");
-				Date date_commande = rs.getDate("date_commande");
-				String client = rs.getString("client");
-				String adresse = rs.getString("adresse");
-				int employe = rs.getInt("employe");
-				Date date_debut_prepa = rs.getDate("date_debut_prepa");
-				Date date_fin_prepa = rs.getDate("date_fin_prepa");
-				String etat = rs.getString("etat");
-				
-				Commande commande = new Commande();
-				commande.setId_commande(id_commande);
-				commande.setDate_commande(date_commande);
-				commande.setClient(client);
-				commande.setAdresse(adresse);
-				commande.setEmploye(employe);
-				commande.setDate_debut_prepa(date_debut_prepa);
-				commande.setDate_fin_prepa(date_fin_prepa);
-				commande.setEtat(etat);
-				
-				listeCommande.add(commande);
-							
+			{			
+				listeCommande.add(build(rs));						
 			}
-
-			
-			
+	
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -166,13 +143,10 @@ public class CommandeDB {
 					e.printStackTrace();
 				}
 		}
-		
 		return listeCommande;
 	}
 		
-		
 	
-	}
 	
 	public static Commande selectCommandeLaPlusUrgente() {
 		Commande com = null;
