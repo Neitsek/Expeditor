@@ -39,4 +39,14 @@
     <servlet-name>DeconnexionServlet</servlet-name>
     <url-pattern>/DeconnexionServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SuiviCommandeEmploye</display-name>
+    <servlet-name>SuiviCommandeEmploye</servlet-name>
+    <servlet-class>com.expeditor.servlets.SuiviCommandeEmploye</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SuiviCommandeEmploye</servlet-name>
+    <url-pattern>/SuiviCommandeEmploye</url-pattern>
+  </servlet-mapping>
 </web-app>

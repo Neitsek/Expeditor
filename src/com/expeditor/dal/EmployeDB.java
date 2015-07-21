@@ -10,7 +10,7 @@ import com.expeditor.bo.Employe;
 public class EmployeDB {
 	
 	private static final String SELECT_ALL = "select * from Employe";
-	private static final String SELECT_ONE = "select * from Employe where login = ? and password = ? and nom = ? and prenom = ?";
+	private static final String SELECT_ONE = "select * from Employe where login = ? and password = ?";
 	
 	private EmployeDB() {
 		
@@ -57,8 +57,8 @@ public class EmployeDB {
 		try {
 			statement = ConnectionDB.connect().prepareStatement(SELECT_ONE);
 			
-			statement.setString(0, login);
-			statement.setString(1, password);
+			statement.setString(1, login);
+			statement.setString(2, password);
 			
 			rs = statement.executeQuery();
 
