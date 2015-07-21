@@ -1,8 +1,9 @@
 <jsp:include page="header.jsp" />
 
+<%@ page import="com.expeditor.dal.ConnectionDB" %>
 
-<% 
-
+<%
+ConnectionDB.connect();
 %>
 
 <nav class="navbar navbar-default">
