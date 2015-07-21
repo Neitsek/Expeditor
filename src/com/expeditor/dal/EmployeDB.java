@@ -19,7 +19,7 @@ public class EmployeDB {
 	 * @return
 	 */
 	public static Object getOne(String login, String password) {
-		Object personne = null;
+		Employe em = null;
 		Connection cnx = null;
 		PreparedStatement statement = null;
 		ResultSet rs = null;
@@ -38,7 +38,7 @@ public class EmployeDB {
 				String prenom = rs.getString("prenom");
 				Boolean is_manager = rs.getBoolean("is_manager");
 				
-				Employe em = new Employe();
+				em = new Employe();
 					em.setId(id_employe);
 					em.setNom(nom);
 					em.setPrenom(prenom);

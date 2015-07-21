@@ -1,10 +1,15 @@
 package com.expeditor.servlets;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.expeditor.bo.Employe;
+import com.expeditor.dal.EmployeDB;
 
 /**
  * Servlet implementation class Connexion
@@ -35,27 +40,17 @@ public class ConnexionServlet extends HttpServlet {
 
 	
 	private void execute(HttpServletRequest request, HttpServletResponse response) {
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp") ;
 		String login = request.getParameter("login");
 		String password = request.getParameter("password");
 		
-		
-		
-		boolean logged = false;
-		
-		Cookie[] cookies = request.getCookies();
-		
-		for ( Cookie current : cookies) {
-			if ( current.getName().equals("logged") ) {
-				logged = true;
-				break;
-			}
+		EmployeDB em = new EmployeDB();
+		Employe employe = (Employe) em.getOne(login, password);
+		if (employe != null){
+			request.setAttribute("employe", employe);
+		}else{
+			
 		}
 		
-		if (!logged) {
-			//TODO Redirection vers login
-		}
-		else {
-			request.getRequestDispatcher("");
-		}
 	}
 }
