@@ -2,6 +2,7 @@ package com.expeditor.dal;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,13 +10,41 @@ import java.util.Date;
 import com.expeditor.bll.Logger;
 import com.expeditor.bll.Outils;
 import com.expeditor.bo.Commande;
+import com.expeditor.bo.Employe;
 
 public class CommandeDB {
 
 	private static final String INSERT = "insert into commande " +
 			" (date_commande,client,adresse,employe,date_debut_prepa,date_fin_prepa,etat)" +
 			" values(?,?,?,?,?,?,?)"; 
- 
+	
+	private static Commande build(ResultSet rs) {
+		Commande com = null;
+		
+		try {
+			int idCommande = rs.getInt("id_commande");
+			Date dateCommande = rs.getDate("date_commande");
+			String client = rs.getString("client");
+			String adresse = rs.getString("adresse");
+			Integer idEmploye = rs.getInt("employe");
+			Date dateDebutPrepa = rs.getDate("date_debut_prepa");
+			Date dateFinPrepa = rs.getDate("date_fin_prepa");
+			
+			com = new Commande();
+			com.setId_commande(idCommande);
+			com.setDate_commande(dateCommande);
+			com.setClient(client);
+			com.setAdresse(adresse);
+			com.setEmploye(idEmploye);
+			com.setDate_debut_prepa(dateDebutPrepa);
+			com.setDate_fin_prepa(dateDebutPrepa);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return com;
+	}
 	
 	/**
 	 * insertion commande 
@@ -91,5 +120,11 @@ public class CommandeDB {
 	
 	}
 	
-	
+	public static Commande selectCommandeLaPlusUrgente() {
+		Commande com = null;
+		
+		
+		
+		return com;
+	}
 }
