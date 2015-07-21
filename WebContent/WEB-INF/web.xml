@@ -9,4 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>TraitementCommandeServlet</display-name>
+    <servlet-name>TraitementCommandeServlet</servlet-name>
+    <servlet-class>com.expeditor.servlets.TraitementCommandeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TraitementCommandeServlet</servlet-name>
+    <url-pattern>/employe/TraitementCommande</url-pattern>
+  </servlet-mapping>
 </web-app>

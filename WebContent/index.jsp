@@ -2,7 +2,7 @@
 
 
 <% 
-ConnectionDB.connect();
+
 %>
 
 <nav class="navbar navbar-default">
