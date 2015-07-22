@@ -86,5 +86,42 @@ public class ConnectionDB {
 		
 		return rs;
 	}
+	
+	public static void update(String query, Object... parameters) {
+		Connection cnx = null;
+		PreparedStatement statement = null;
+		try {
+			statement = ConnectionDB.connect().prepareStatement(query);
+
+			int cpt = 0;
+			for (Object parameter : parameters) {
+				cpt++;
+				
+				if (parameter instanceof Integer) {
+					statement.setInt(cpt, (Integer)parameter);
+				} else if (parameter instanceof String) {
+					statement.setString(cpt, (String)parameter);
+				} else if (parameter instanceof Date) {
+					statement.setDate(cpt, new java.sql.Date(((Date) parameter).getTime()));
+				} else if (parameter instanceof Boolean ) {
+					statement.setBoolean(cpt, (Boolean) parameter);
+				}
+			}
+			
+			statement.executeUpdate();
+			statement.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (cnx != null) { 
+				try {
+					cnx.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }
 
