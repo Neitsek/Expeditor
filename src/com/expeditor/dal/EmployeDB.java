@@ -53,35 +53,19 @@ public class EmployeDB {
 	 */
 	public static Employe getOne(String login, String password) {
 		Employe employe = null;
-		Connection cnx = null;
-		PreparedStatement statement = null;
-		ResultSet rs = null;
-		try {
-			statement = ConnectionDB.connect().prepareStatement(SELECT_ONE);
-			
-			statement.setString(1, login);
-			statement.setString(2, password);
-			
-			rs = statement.executeQuery();
+		
+		ResultSet rs = ConnectionDB.select(SELECT_ONE, login, password);
 
+		try {
 			while(rs.next())
 			{
 				employe = build(rs);
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			if (cnx != null) { 
-				try {
-					cnx.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 		}
+		
 		return employe;
 	}
 	

@@ -55,19 +55,14 @@ public class ConnexionServlet extends HttpServlet {
 			
 			request.setAttribute("nom", employe.getNom());
 			request.setAttribute("prenom", employe.getPrenom());	
-			if(employe.getIsManager() == true){
-				request.setAttribute("isManager", "true");
-				
-				RequestDispatcher rd=request.getRequestDispatcher("ListeCommandeServlet");  
-		        rd.forward(request, response);  
-			
-			}else{
-				request.setAttribute("isManager", "false");
-				
+			RequestDispatcher requestDispatcher;
+			if (employe.getIsManager()) {
+				requestDispatcher= request.getRequestDispatcher("ListeCommandeServlet");
 			}
-			
-			
-		
+			else {
+				requestDispatcher= request.getRequestDispatcher("/TraitementCommande");
+			}
+			requestDispatcher.forward(request, response) ;
 		}else{
 			Object error = "Erreur de login ou de mot de passe, veuillez réessayer.";
 			request.setAttribute("error", error);
@@ -85,7 +80,6 @@ public class ConnexionServlet extends HttpServlet {
 			request.setAttribute("error", error);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.jsp");
 			requestDispatcher.forward(request, response) ;
-		}*/	
-		
+		}*/
 	}
 }

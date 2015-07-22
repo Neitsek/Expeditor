@@ -23,23 +23,7 @@ public class TraitementCommandeServlet extends HttpServlet {
 		execute(request, response);
 	}
 	
-	private void execute(HttpServletRequest request, HttpServletResponse response) {
-		boolean logged = false;
-		
-		Cookie[] cookies = request.getCookies();
-		
-		for ( Cookie current : cookies) {
-			if ( current.getName().equals("logged") ) {
-				logged = true;
-				break;
-			}
-		}
-		
-		if (!logged) {
-			//TODO Redirection vers login
-		}
-		else {
-			request.getRequestDispatcher("");
-		}
+	private void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("/employe/traitementCommande.jsp").forward(request, response);
 	}
 }
