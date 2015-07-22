@@ -57,11 +57,17 @@ public class ConnexionServlet extends HttpServlet {
 			request.setAttribute("prenom", employe.getPrenom());	
 			if(employe.getIsManager() == true){
 				request.setAttribute("isManager", "true");
+				
+				RequestDispatcher rd=request.getRequestDispatcher("ListeCommandeServlet");  
+		        rd.forward(request, response);  
+			
 			}else{
 				request.setAttribute("isManager", "false");
+				
 			}
-			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/listeCommandes.jsp");
-			requestDispatcher.forward(request, response) ;
+			
+			
+		
 		}else{
 			Object error = "Erreur de login ou de mot de passe, veuillez réessayer.";
 			request.setAttribute("error", error);
@@ -71,7 +77,7 @@ public class ConnexionServlet extends HttpServlet {
 		}
 		
 		//vérification de l'etat de la session
-		if(Connexion.verifSession(request.getSession().getAttribute("login")) == true){
+		/*if(Connexion.verifSession(request.getSession().getAttribute("login")) == true){
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/listeCommandes.jsp");
 			requestDispatcher.forward(request, response) ;
 		}else{
@@ -79,7 +85,7 @@ public class ConnexionServlet extends HttpServlet {
 			request.setAttribute("error", error);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.jsp");
 			requestDispatcher.forward(request, response) ;
-		}	
+		}*/	
 		
 	}
 }

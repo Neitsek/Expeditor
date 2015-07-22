@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<script type="text/javascript" src='lib/jquery/jquery1.11.3.js'></script>
-		<script type="text/javascript" src='lib/bootstrap/js/bootstrap.min.js'></script>
+		<script type="text/javascript" src='lib/bootstrap/js/bootstrap.min.js'></script>		
 		<link href='lib/bootstrap/css/bootstrap.min.css' rel="stylesheet">
 		
 		<link href='lib/css/expeditor.css' rel="stylesheet">

@@ -49,4 +49,14 @@
     <servlet-name>SuiviCommandeEmploye</servlet-name>
     <url-pattern>/SuiviCommandeEmploye</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ListeCommandeServlet</display-name>
+    <servlet-name>ListeCommandeServlet</servlet-name>
+    <servlet-class>com.expeditor.servlets.ListeCommandeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListeCommandeServlet</servlet-name>
+    <url-pattern>/ListeCommandeServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
