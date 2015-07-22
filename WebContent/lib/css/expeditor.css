@@ -1,8 +1,7 @@
 @CHARSET "ISO-8859-1";
 
+body { padding-top: 70px; }
+
 .vcenter {
     margin-top : 20%;
-}
-.marginTop{
-	margin-top : 5%;
 }

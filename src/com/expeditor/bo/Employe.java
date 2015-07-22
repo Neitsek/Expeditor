@@ -18,6 +18,15 @@ public class Employe {
 		setIsManager(isManager);
 	}
 	 
+	public Employe(Integer id, String nom, String prenom, String login, String password, Boolean isManager) {
+		setId(id);
+		setNom(nom);
+		setPrenom(prenom);
+		setLogin(login);
+		setPassword(password);
+		setIsManager(isManager);
+	}
+
 	public Integer getId() {
 		return id;
 	}

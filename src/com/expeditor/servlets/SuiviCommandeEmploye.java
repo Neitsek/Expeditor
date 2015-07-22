@@ -1,6 +1,7 @@
 package com.expeditor.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.expeditor.bll.Connexion;
+import com.expeditor.bo.Employe;
+import com.expeditor.dal.EmployeDB;
 
 /**
  * Servlet implementation class SuiviCommandeEmploye
@@ -43,6 +46,11 @@ public class SuiviCommandeEmploye extends HttpServlet {
 	protected void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//vérification de l'etat de la session
 		if(Connexion.verifSession(request.getSession().getAttribute("login")) == true){
+			ArrayList<Employe> listEmploye = new ArrayList<Employe>();
+			listEmploye = EmployeDB.getAllEmploye();
+			System.out.println(listEmploye.get(0));
+			request.setAttribute("listeEmploye", listEmploye);
+			
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/manager/suiviCommande.jsp");
 			requestDispatcher.forward(request, response) ;
 		}else{
