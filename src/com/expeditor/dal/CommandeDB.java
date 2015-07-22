@@ -22,6 +22,8 @@ public class CommandeDB {
 	
 	private static final String SELECT_PAR_URGENCE = "SELECT * FROM Commande WHERE etat = 'ATT' AND date_commande = ( SELECT MIN(date_commande) FROM Commande WHERE etat = 'ATT' );";
 	
+	private static final String UPDATE = "UPDATE commande SET date_commande = ?, client = ?, adresse = ?, employe = ?, date_debut_prepa = ?, date_fin_prepa = ?, etat = ? WHERE id_commande = ?";
+	
 	private static Commande build(ResultSet rs) {
 		Commande com = null;
 		
@@ -108,7 +110,7 @@ public class CommandeDB {
 			Logger.affiche("SELECT");
 			int i = 0;
 			query += "AND etat IN(";
-			for (int j = 0; j < listeEtat.size(); j++) {					
+			for (int j = 0; j < listeEtat.size()-1; j++) {					
 				i++;
 				query += "'" + listeEtat.get(j) + "'";
 				if (listeEtat.size()!=i) {
@@ -122,6 +124,8 @@ public class CommandeDB {
 		if(date_debut!=null && date_fin!=null){
 			query += "AND date_commande BETWEEN '" + Outils.pTimestamp(date_debut) + "' AND '" + Outils.pTimestamp(date_fin) + "'";	
 		}
+		
+		query += "ORDER BY id_commande";
 
 		ResultSet rs = ConnectionDB.select(query);
 		
@@ -138,8 +142,6 @@ public class CommandeDB {
 	
 	public static Commande selectCommandeLaPlusUrgente() {
 		Commande com = null;
-		Connection cnx = null;
-		PreparedStatement statement = null;
 		ResultSet rs = null;
 
 		rs = ConnectionDB.select(SELECT_PAR_URGENCE);
@@ -154,5 +156,13 @@ public class CommandeDB {
 			e.printStackTrace();
 		}
 		return com;
+	}
+	
+	public static void updateCommande(Commande commande) {
+		updateCommande(commande.getId_commande(), commande.getDate_commande(), commande.getClient(), commande.getAdresse(), commande.getEmploye(), commande.getDate_debut_prepa(), commande.getDate_fin_prepa(), commande.getEtat());
+	}
+	
+	public static void updateCommande (Integer id_commande, Date date_commande, String client, String adresse, Integer employe, Date date_debut_prepa, Date date_fin_prepa, String etat) {
+		ConnectionDB.update(UPDATE, id_commande, date_commande, client, adresse, employe, date_debut_prepa, date_fin_prepa, etat );
 	}
 }
