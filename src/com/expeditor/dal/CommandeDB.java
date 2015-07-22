@@ -151,16 +151,16 @@ public class CommandeDB {
 	 * @param date_debut
 	 * @param date_fin
 	 */
-	public static ArrayList<Commande> selectCommandes(ArrayList<String> listeEtat, Date date_debut, Date date_fin) {
+	public static ArrayList<Commande> selectCommandes(ArrayList<String> listeEtat, Date date_debut, Date date_fin, int id_employe) {
 		ArrayList<Commande> listCommande = new ArrayList<Commande>();
 		// -- construction de la requete
 		// gestion des états
 		String query = SELECT;
 		if (listeEtat.size()>0){
-			Logger.affiche("SELECT");
+
 			int i = 0;
 			query += "AND etat IN(";
-			for (int j = 0; j < listeEtat.size()-1; j++) {					
+			for (int j = 0; j < listeEtat.size(); j++) {					
 				i++;
 				query += "'" + listeEtat.get(j) + "'";
 				if (listeEtat.size()!=i) {
@@ -172,7 +172,12 @@ public class CommandeDB {
 
 		// gestion de la date
 		if(date_debut!=null && date_fin!=null){
-			query += "AND date_commande BETWEEN '" + Outils.pTimestamp(date_debut) + "' AND '" + Outils.pTimestamp(date_fin) + "'";	
+			query += "AND date_commande BETWEEN '" + new java.sql.Date(date_debut.getTime()) + "' AND '" + new java.sql.Date(date_fin.getTime()) + "'";	
+		}
+		
+		if(id_employe!=0)
+		{
+			query += "AND Employe.id_commande ='"+id_employe+"' ";
 		}
 		
 		query += "ORDER BY id_commande";
@@ -187,9 +192,9 @@ public class CommandeDB {
 			e.printStackTrace();
 		}
 		
-		for (Commande com : listCommande) {
-			com.setArticles(getArticles(com.getId_commande()));
-		}
+//		for (Commande com : listCommande) {
+//			com.setArticles(getArticles(com.getId_commande()));
+//		}
 		
 		return listCommande;
 	}

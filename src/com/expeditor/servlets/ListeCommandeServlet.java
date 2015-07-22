@@ -51,11 +51,9 @@ public class ListeCommandeServlet extends HttpServlet {
 		Date dFin = null;
 		
 		String isActu =  request.getParameter("actu");
-		System.out.println(isActu);
 		
 		if ("OK".equals(isActu)){	
 			/* Etats */
-			System.out.println("ookkkk");
 			String[] checkboxes = request.getParameterValues("etat");		 
 			if (checkboxes != null) {		    		
 			    for (int i = 0; i < checkboxes.length; ++i) {   		      
@@ -68,16 +66,16 @@ public class ListeCommandeServlet extends HttpServlet {
 			String fin = request.getParameter("fin");
 			
 			if(fin != "" && debut != ""){
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				try {
-					dDebut 	= sdf.parse(request.getParameter("debut"));
-					dFin 	= sdf.parse(request.getParameter("fin"));
+					dDebut 	= sdf.parse(debut);
+					dFin 	= sdf.parse(fin);
 				} catch (ParseException e) {			
 					e.printStackTrace();
 				}  
 			}
-			
-			
+						
 		}else{
 			listeEtats.add("ATT");
 			listeEtats.add("EC");
