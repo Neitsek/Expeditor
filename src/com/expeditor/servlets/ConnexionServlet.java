@@ -80,6 +80,6 @@ public class ConnexionServlet extends HttpServlet {
 			request.setAttribute("error", error);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.jsp");
 			requestDispatcher.forward(request, response) ;
-		}
+		}*/
 	}
 }
