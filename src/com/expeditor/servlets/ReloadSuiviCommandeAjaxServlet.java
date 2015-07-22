@@ -11,18 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.expeditor.bll.Connexion;
 import com.expeditor.bo.Employe;
+import com.expeditor.dal.CommandeDB;
 import com.expeditor.dal.EmployeDB;
 
 /**
- * Servlet implementation class SuiviCommandeEmploye
+ * Servlet implementation class ReloadSuiviCommandeAjaxServlet
  */
-public class SuiviCommandeEmploye extends HttpServlet {
+public class ReloadSuiviCommandeAjaxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SuiviCommandeEmploye() {
+    public ReloadSuiviCommandeAjaxServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -44,13 +45,22 @@ public class SuiviCommandeEmploye extends HttpServlet {
 	}
 	
 	protected void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.getParameter("dateDebut");
+		request.getParameter("dateFin");
+		request.getParameter("idEmploye");
+		ArrayList<String[]> listeEtat = new ArrayList<String[]>();
+		listeEtat.add(request.getParameter("listeEtat").split(null, ','));
+		
+	
+		
+		System.out.println(request.getParameter("dateDebut"));
+		System.out.println(request.getParameter("idEmploye"));
+		System.out.println(listeEtat);
+		
 		//vérification de l'etat de la session
 		if(Connexion.verifSession(request.getSession().getAttribute("login")) == true){
-			ArrayList<Employe> listEmploye = new ArrayList<Employe>();
-			listEmploye = EmployeDB.getAllEmployeWithoutManager();
-			System.out.println(listEmploye);
-			request.setAttribute("listeEmploye", listEmploye);
-			
+			//TODO : recupération dans commandeDB des commande avec les parametre au dessus
+			//CommandeDB.selectCommandes(request.getParameter("listeEtat"), request.getParameter("dateDebut"), request.getParameter("dateFin"), request.getParameter("idEmploye"));
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/manager/suiviCommande.jsp");
 			requestDispatcher.forward(request, response) ;
 		}else{

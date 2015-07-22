@@ -2,8 +2,6 @@
 
 <%@ page import="com.expeditor.dal.*" %>
 <%@ page import="com.expeditor.bo.*" %>
-
-<% ConnectionDB.connect(); %>
  
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container-fluid">

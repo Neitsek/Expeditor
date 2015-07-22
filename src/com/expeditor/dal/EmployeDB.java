@@ -11,7 +11,7 @@ import com.expeditor.bo.Employe;
 public class EmployeDB {
 	
 	private static final String SELECT_ALL = "select * from Employe";
-	private static final String SELECT_ALL_EMPLOYE = "select * from Employe where is_manager = 'False'";
+	private static final String SELECT_ALL_EMPLOYE = "select * from Employe where is_manager = 0";
 	private static final String SELECT_ONE = "select * from Employe where login = ? and password = ?";
 	
 	private EmployeDB() {
@@ -53,43 +53,78 @@ public class EmployeDB {
 	 */
 	public static Employe getOne(String login, String password) {
 		Employe employe = null;
-		
-		ResultSet rs = ConnectionDB.select(SELECT_ONE, login, password);
-
+		Connection cnx = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		try {
+			statement = ConnectionDB.connect().prepareStatement(SELECT_ONE);
+			
+			statement.setString(1, login);
+			statement.setString(2, password);
+			
+			rs = statement.executeQuery();
+
 			while(rs.next())
 			{
 				employe = build(rs);
 			}
 			
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (cnx != null) { 
+				try {
+					cnx.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
-		
 		return employe;
 	}
 	
 	/**
-	 * get one user
-	 * @param is_manager
+	 * get all user without manager
 	 * @return
 	 */
-	public static ArrayList<Employe> getAllEmploye() {
+	public static ArrayList<Employe> getAllEmployeWithoutManager() {
 		ArrayList<Employe> listEmploye = new ArrayList<Employe>();
-		
+		Connection cnx = null;
+		PreparedStatement statement = null;
 		ResultSet rs = null;
 		try {
-			rs = ConnectionDB.select(SELECT_ALL_EMPLOYE);
+			statement = ConnectionDB.connect().prepareStatement(SELECT_ALL_EMPLOYE);
+			rs = statement.executeQuery();
 
 			while(rs.next())
 			{
-				listEmploye.add(build(rs));
+
+				Employe em = new Employe();
+					em.setId(rs.getInt("id_employe"));
+					em.setNom(rs.getString("nom"));
+					em.setPrenom(rs.getString("prenom"));
+					em.setLogin(rs.getString("login"));
+					em.setPassword(rs.getString("password"));
+					em.setIsManager(rs.getBoolean("is_manager"));
+				
+				listEmploye.add(em);
 			}
 			
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (cnx != null) { 
+				try {
+					cnx.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
-		
 		return listEmploye;
 	}
 	
