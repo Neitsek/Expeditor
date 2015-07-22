@@ -59,4 +59,14 @@
     <servlet-name>ListeCommandeServlet</servlet-name>
     <url-pattern>/ListeCommandeServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>actuListeCommande</display-name>
+    <servlet-name>actuListeCommande</servlet-name>
+    <servlet-class>com.expeditor.servlets.actuListeCommande</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>actuListeCommande</servlet-name>
+    <url-pattern>/actuListeCommande</url-pattern>
+  </servlet-mapping>
 </web-app>

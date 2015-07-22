@@ -24,16 +24,42 @@
 
 
 	<h2>Liste des commandes</h2>
-	
-	
-<div class="col-md-12">
-	<div class="col-sm-5"><label for="debut">D&eacute;but</label> : <input type="text" name="debut" id="debut" class="form-control"/></div>
-</div>
-<div class="col-md-12">
-	<div class="col-sm-5"><label for="fin">Fin</label> : <input type="text" name="fin" id="fin" class="form-control"/></div>
-</div>
 
-	<div class="col-md-10">
+<form action="ListeCommandeServlet" method="post">
+	<input type="hidden" value="OK" name="actu">
+	<div class="row">
+		<!-- Dates -->
+		<div class="col-xs-6 col-md-3">
+			<label for="debut">D&eacute;but</label> : <input type="text"
+				name="debut" id="debut" class="form-control" /> <label for="fin">Fin</label>
+			: <input type="text" name="fin" id="fin" class="form-control" />
+		</div>
+		<!-- Etat -->
+		<div class="col-xs-6 col-md-3">
+			<label for="checkbox">Etat</label>
+			<div class="checkbox">
+				<label><input type="checkbox" checked="checked" name="etat"
+					value="ATT">En attente</label>
+			</div>
+			<div class="checkbox">
+				<label><input type="checkbox" checked="checked" name="etat"
+					value="EC">En cours</label>
+			</div>
+		</div>
+		<!-- Employe -->
+		<div class="col-xs-6 col-md-3">
+
+		</div>
+		<!-- Actualisation-->
+		<div class="col-xs-6 col-md-3">
+			<button type="submit" name="actu" id="actu" class="btn btn-default">Actualiser</button>
+		</div>
+	</div>
+</form>
+
+<br>
+
+<div class="col-md-10">
 		<div id="table-commandes">
 			<table class="table">
 				<thead>

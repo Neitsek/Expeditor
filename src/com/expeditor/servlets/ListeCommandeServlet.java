@@ -1,7 +1,10 @@
 package com.expeditor.servlets;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,18 +45,48 @@ public class ListeCommandeServlet extends HttpServlet {
 	private void execute(HttpServletRequest request,
 			HttpServletResponse response)throws ServletException, IOException{
 		
-		// -- Logger ? 
-		
-		// -- Paramètre pour la liste 
-		//request.getParameterValues("lesEtats");				
 		ArrayList<String> listeEtats = new ArrayList<String>();
-		listeEtats.add("ATT");
-		listeEtats.add("EC");
+		ArrayList<Commande> listeCommandes = new ArrayList<Commande>();
+		Date dDebut = null;
+		Date dFin = null;
+		
+		String isActu =  request.getParameter("actu");
+		System.out.println(isActu);
+		
+		if ("OK".equals(isActu)){	
+			/* Etats */
+			System.out.println("ookkkk");
+			String[] checkboxes = request.getParameterValues("etat");		 
+			if (checkboxes != null) {		    		
+			    for (int i = 0; i < checkboxes.length; ++i) {   		      
+			        listeEtats.add(checkboxes[i]);
+			    }
+			}
+			
+			/* Date */
+			String debut = request.getParameter("debut");
+			String fin = request.getParameter("fin");
+			
+			if(fin != "" && debut != ""){
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					dDebut 	= sdf.parse(request.getParameter("debut"));
+					dFin 	= sdf.parse(request.getParameter("fin"));
+				} catch (ParseException e) {			
+					e.printStackTrace();
+				}  
+			}
+			
+			
+		}else{
+			listeEtats.add("ATT");
+			listeEtats.add("EC");
+		}
 		
 		// -- Recupère la liste des commandes
-		ArrayList<Commande> listeCommandes = new ArrayList<Commande>();
-		listeCommandes = CommandeDB.selectCommandes(listeEtats, null, null);
+		listeCommandes = CommandeDB.selectCommandes(listeEtats, dDebut, dFin,0);
 				
+		
 		// -- Envoie vers la jsp
 		request.setAttribute("listeCommande", listeCommandes);
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("listeCommandes.jsp");
