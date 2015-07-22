@@ -26,7 +26,7 @@ public class CommandeDB {
 	
 	private static final String UPDATE = "UPDATE commande SET date_commande = ?, client = ?, adresse = ?, employe = ?, date_debut_prepa = ?, date_fin_prepa = ?, etat = ? WHERE id_commande = ?";
 	
-	private static final String SELECT_ARTICLES = "SELECT * FROM commande_article CA JOIN article A ON CA.article = A.id_article WHERE employe = ?";
+	private static final String SELECT_ARTICLES = "SELECT * FROM commande_article CA JOIN article A ON CA.article = A.id_article WHERE commande = ?";
 	
 	private static final String SELECT_COMMANDEENCOURS = "SELECT * FROM commande WHERE employe = ? AND etat = 'EC'";
 	
@@ -93,12 +93,14 @@ public class CommandeDB {
 		
 		ResultSet rs = ConnectionDB.select(SELECT_ARTICLES, id_commande);
 		
-		try {
-			while(rs.next()) {
-				listArticles.add(buildCommandeArticle(rs));
+		if (rs != null) {
+			try {
+				while(rs.next()) {
+					listArticles.add(buildCommandeArticle(rs));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		
 		return listArticles;
