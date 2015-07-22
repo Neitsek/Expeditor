@@ -18,7 +18,9 @@ public class CommandeDB {
 
 	private static final String INSERT = "insert into commande " +
 			" (date_commande,client,adresse,employe,date_debut_prepa,date_fin_prepa,etat)" +
-			" values(?,?,?,?,?,?,?)"; 
+			" values(?,?,?,?,?,?,?)";
+	
+	private static final String SELECT_PAR_URGENCE = "SELECT * FROM Commande WHERE etat = 'ATT' AND date_commande = ( SELECT MIN(date_commande) FROM Commande WHERE etat = 'ATT' );";
 	
 	private static Commande build(ResultSet rs) {
 		Commande com = null;
@@ -31,6 +33,7 @@ public class CommandeDB {
 			Integer idEmploye = rs.getInt("employe");
 			Date dateDebutPrepa = rs.getDate("date_debut_prepa");
 			Date dateFinPrepa = rs.getDate("date_fin_prepa");
+			String etat = rs.getString("etat");
 			
 			com = new Commande();
 			com.setId_commande(idCommande);
@@ -40,6 +43,7 @@ public class CommandeDB {
 			com.setEmploye(idEmploye);
 			com.setDate_debut_prepa(dateDebutPrepa);
 			com.setDate_fin_prepa(dateFinPrepa);
+			com.setEtat(etat);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -96,63 +100,59 @@ public class CommandeDB {
 	 * @param date_fin
 	 */
 	public static ArrayList<Commande> selectCommandes(ArrayList<String> listeEtat, Date date_debut, Date date_fin) {
-
+		ArrayList<Commande> listCommande = new ArrayList<Commande>();
 		// -- construction de la requete
 		// gestion des états
+		String query = SELECT;
 		if (listeEtat.size()>0){
 			Logger.affiche("SELECT");
 			int i = 0;
-			SELECT += "AND etat IN(";
+			query += "AND etat IN(";
 			for (int j = 0; j < listeEtat.size(); j++) {					
 				i++;
-				SELECT += "'" + listeEtat.get(j) + "'";
+				query += "'" + listeEtat.get(j) + "'";
 				if (listeEtat.size()!=i) {
-					SELECT +=",";
+					query +=",";
 				}
 			}
-			SELECT += ") ";
+			query += ") ";
 		}
 
 		// gestion de la date
 		if(date_debut!=null && date_fin!=null){
-			SELECT += "AND date_commande BETWEEN '" + Outils.pTimestamp(date_debut) + "' AND '" + Outils.pTimestamp(date_fin) + "'";	
+			query += "AND date_commande BETWEEN '" + Outils.pTimestamp(date_debut) + "' AND '" + Outils.pTimestamp(date_fin) + "'";	
 		}
 
-		ArrayList<Commande> listeCommande = new ArrayList<Commande>(); 
-		Connection cnx = null;
-		PreparedStatement statement = null;
-		ResultSet rs = null;
-		try {
-			cnx = ConnectionDB.connect();
-			statement = cnx.prepareStatement(SELECT);
-			rs = statement.executeQuery();
-			while(rs.next())
-			{			
-				listeCommande.add(build(rs));						
-			}
-	
-		}catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			if (cnx != null )
-				try {
-					cnx.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
-		return listeCommande;
-	}
+		ResultSet rs = ConnectionDB.select(query);
 		
-	
+		try {
+			while(rs.next()) {
+				listCommande.add(build(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return listCommande;
+	}
 	
 	public static Commande selectCommandeLaPlusUrgente() {
 		Commande com = null;
+		Connection cnx = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+
+		rs = ConnectionDB.select(SELECT_PAR_URGENCE);
 		
-		
-		
+		try {
+			while(rs.next())
+			{
+				com = build(rs);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return com;
 	}
 }
