@@ -1,6 +1,7 @@
 package com.expeditor.bo;
 
 import java.util.Date;
+import java.util.List;
 
 public class Commande {
 	private int id_commande;
@@ -11,6 +12,7 @@ public class Commande {
 	private Date date_debut_prepa;
 	private Date date_fin_prepa;
 	private String etat;
+	private List<CommandeArticle> articles;
 
 
 	public Commande(){
@@ -93,4 +95,11 @@ public class Commande {
 		this.etat = etat;
 	}
 
+	public List<CommandeArticle> getArticles() {
+		return articles;
+	}
+
+	public void setArticles(List<CommandeArticle> articles) {
+		this.articles = articles;
+	}
 }

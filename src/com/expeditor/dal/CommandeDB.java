@@ -6,21 +6,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.expeditor.bll.Logger;
 import com.expeditor.bll.Outils;
+import com.expeditor.bo.Article;
 import com.expeditor.bo.Commande;
+import com.expeditor.bo.CommandeArticle;
 
 public class CommandeDB {
-
 	private CommandeDB(){
 	}
 
 	private static final String INSERT = "insert into commande " +
 			" (date_commande,client,adresse,employe,date_debut_prepa,date_fin_prepa,etat)" +
-			" values(?,?,?,?,?,?,?)"; 
+			" values(?,?,?,?,?,?,?)";
 	
-	private static Commande build(ResultSet rs) {
+	private static final String SELECT_PAR_URGENCE = "SELECT * FROM Commande WHERE etat = 'ATT' AND date_commande = ( SELECT MIN(date_commande) FROM Commande WHERE etat = 'ATT' );";
+	
+	private static final String UPDATE = "UPDATE commande SET date_commande = ?, client = ?, adresse = ?, employe = ?, date_debut_prepa = ?, date_fin_prepa = ?, etat = ? WHERE id_commande = ?";
+	
+	private static final String SELECT_ARTICLES = "SELECT * FROM commande_article CA JOIN article A ON CA.article = A.id_article WHERE employe = ?";
+	
+	private static final String SELECT_COMMANDEENCOURS = "SELECT * FROM commande WHERE employe = ? AND etat = 'EC'";
+	
+	private static Commande buildCommande(ResultSet rs) {
 		Commande com = null;
 		
 		try {
@@ -31,6 +41,7 @@ public class CommandeDB {
 			Integer idEmploye = rs.getInt("employe");
 			Date dateDebutPrepa = rs.getDate("date_debut_prepa");
 			Date dateFinPrepa = rs.getDate("date_fin_prepa");
+			String etat = rs.getString("etat");
 			
 			com = new Commande();
 			com.setId_commande(idCommande);
@@ -40,12 +51,57 @@ public class CommandeDB {
 			com.setEmploye(idEmploye);
 			com.setDate_debut_prepa(dateDebutPrepa);
 			com.setDate_fin_prepa(dateFinPrepa);
+			com.setEtat(etat);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		return com;
+	}
+	
+	private static CommandeArticle buildCommandeArticle(ResultSet rs) {
+		CommandeArticle com = null;
+		Article art = null;
+		
+		try {
+			int idCommandeArticle = rs.getInt("id_commande_article");
+			int idArticle = rs.getInt("id_article");
+			int qte = rs.getInt("quantite");
+			String nom = rs.getString("nom");
+			Integer poids = rs.getInt("poids");
+			
+			art = new Article();
+			art.setId(idArticle);
+			art.setNom(nom);
+			art.setPoids(poids);
+			
+			com = new CommandeArticle();
+			com.setId_commande_article(idCommandeArticle);
+			com.setQuantite(qte);
+			com.setArticle(art);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return com;
+	}
+	
+	public static List<CommandeArticle> getArticles(Integer id_commande) {
+		List<CommandeArticle> listArticles = new ArrayList<CommandeArticle>();
+		
+		ResultSet rs = ConnectionDB.select(SELECT_ARTICLES, id_commande);
+		
+		try {
+			while(rs.next()) {
+				listArticles.add(buildCommandeArticle(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return listArticles;
 	}
 	
 	/**
@@ -96,62 +152,89 @@ public class CommandeDB {
 	 * @param date_fin
 	 */
 	public static ArrayList<Commande> selectCommandes(ArrayList<String> listeEtat, Date date_debut, Date date_fin) {
-
+		ArrayList<Commande> listCommande = new ArrayList<Commande>();
 		// -- construction de la requete
 		// gestion des états
+		String query = SELECT;
 		if (listeEtat.size()>0){
 			Logger.affiche("SELECT");
 			int i = 0;
-			SELECT += "AND etat IN(";
-			for (int j = 0; j < listeEtat.size(); j++) {					
+			query += "AND etat IN(";
+			for (int j = 0; j < listeEtat.size()-1; j++) {					
 				i++;
-				SELECT += "'" + listeEtat.get(j) + "'";
+				query += "'" + listeEtat.get(j) + "'";
 				if (listeEtat.size()!=i) {
-					SELECT +=",";
+					query +=",";
 				}
 			}
-			SELECT += ") ";
+			query += ") ";
 		}
 
 		// gestion de la date
 		if(date_debut!=null && date_fin!=null){
-			SELECT += "AND date_commande BETWEEN '" + Outils.pTimestamp(date_debut) + "' AND '" + Outils.pTimestamp(date_fin) + "'";	
+			query += "AND date_commande BETWEEN '" + Outils.pTimestamp(date_debut) + "' AND '" + Outils.pTimestamp(date_fin) + "'";	
 		}
-
-		ArrayList<Commande> listeCommande = new ArrayList<Commande>(); 
-		Connection cnx = null;
-		PreparedStatement statement = null;
-		ResultSet rs = null;
-		try {
-			cnx = ConnectionDB.connect();
-			statement = cnx.prepareStatement(SELECT);
-			rs = statement.executeQuery();
-			while(rs.next())
-			{			
-				listeCommande.add(build(rs));						
-			}
-	
-		}catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			if (cnx != null )
-				try {
-					cnx.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
-		return listeCommande;
-	}
 		
-	
+		query += "ORDER BY id_commande";
+
+		ResultSet rs = ConnectionDB.select(query);
+		
+		try {
+			while(rs.next()) {
+				listCommande.add(buildCommande(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		for (Commande com : listCommande) {
+			com.setArticles(getArticles(com.getId_commande()));
+		}
+		
+		return listCommande;
+	}
 	
 	public static Commande selectCommandeLaPlusUrgente() {
 		Commande com = null;
+		ResultSet rs = null;
+
+		rs = ConnectionDB.select(SELECT_PAR_URGENCE);
 		
+		try {
+			while(rs.next())
+			{
+				com = buildCommande(rs);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
+		com.setArticles(getArticles(com.getId_commande()));
+		
+		return com;
+	}
+	
+	public static void updateCommande(Commande commande) {
+		updateCommande(commande.getId_commande(), commande.getDate_commande(), commande.getClient(), commande.getAdresse(), commande.getEmploye(), commande.getDate_debut_prepa(), commande.getDate_fin_prepa(), commande.getEtat());
+	}
+	
+	public static void updateCommande (Integer id_commande, Date date_commande, String client, String adresse, Integer employe, Date date_debut_prepa, Date date_fin_prepa, String etat) {
+		ConnectionDB.update(UPDATE, id_commande, date_commande, client, adresse, employe, date_debut_prepa, date_fin_prepa, etat );
+	}
+	
+	public static Commande selectCommandeEnCours(Integer id_employe) {
+		Commande com = null;
+		
+		ResultSet rs = ConnectionDB.select(SELECT_COMMANDEENCOURS, id_employe);
+		
+		try {
+			while(rs.next()) {
+				com = buildCommande(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		return com;
 	}
