@@ -63,5 +63,12 @@
   <servlet-mapping>
     <servlet-name>actuListeCommande</servlet-name>
     <url-pattern>/actuListeCommande</url-pattern>
+    <display-name>ProchaineCommandeServlet</display-name>
+    <servlet-name>ProchaineCommandeServlet</servlet-name>
+    <servlet-class>com.expeditor.servlets.ProchaineCommandeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProchaineCommandeServlet</servlet-name>
+    <url-pattern>/ProchaineCommande</url-pattern>
   </servlet-mapping>
 </web-app>

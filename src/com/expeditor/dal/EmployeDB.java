@@ -76,38 +76,20 @@ public class EmployeDB {
 	 */
 	public static ArrayList<Employe> getAllEmploye() {
 		ArrayList<Employe> listEmploye = new ArrayList<Employe>();
-		Connection cnx = null;
-		PreparedStatement statement = null;
+		
 		ResultSet rs = null;
 		try {
-			statement = ConnectionDB.connect().prepareStatement(SELECT_ALL_EMPLOYE);
-			rs = statement.executeQuery();
+			rs = ConnectionDB.select(SELECT_ALL_EMPLOYE);
 
 			while(rs.next())
 			{
-				Employe em = new Employe(rs.getInt("id_employe"), 
-										rs.getString("nom"), 
-										rs.getString("prenom"),
-										rs.getString("login"),
-										rs.getString("password"),
-										rs.getBoolean("is_manager")
-										);
-				listEmploye.add(em);
+				listEmploye.add(build(rs));
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
-			if (cnx != null) { 
-				try {
-					cnx.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 		}
+		
 		return listEmploye;
 	}
 	
