@@ -91,7 +91,7 @@ public class ListeCommandeServlet extends HttpServlet {
 		
 		// -- Envoie vers la jsp
 		request.setAttribute("listeCommande", listeCommandes);
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("listeCommandes.jsp");
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/manager/listeCommandes.jsp");
 		requestDispatcher.forward(request, response);			
 	}
 }
