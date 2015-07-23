@@ -22,44 +22,58 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="com.expeditor.bo.Commande"%>
 
-
+<div class="marge_gauche">
 	<h2>Liste des commandes</h2>
-
-<form action="ListeCommandeServlet" method="post">
-	<input type="hidden" value="OK" name="actu">
-	<div class="row">
-		<!-- Dates -->
-		<div class="col-xs-6 col-md-3">
-			<label for="debut">D&eacute;but</label> : <input type="text"
-				name="debut" id="debut" class="form-control" /> <label for="fin">Fin</label>
-			: <input type="text" name="fin" id="fin" class="form-control" />
-		</div>
-		<!-- Etat -->
-		<div class="col-xs-6 col-md-3">
-			<label for="checkbox">Etat</label>
-			<div class="checkbox">
-				<label><input type="checkbox" checked="checked" name="etat"
-					value="ATT">En attente</label>
+	<br>
+	<form action="ListeCommandeServlet" method="post">
+		<input type="hidden" value="OK" name="actu">
+		<div class="row">
+			<!-- Dates -->
+			<div class="col-xs-6 col-md-3">
+				<div class="form-group">
+					<label for="debut">D&eacute;but</label> : <input type="text"
+						name="debut" id="debut" class="form-control" value="<%=request.getAttribute("dDebut")%>"/>						
+				</div>
+				<div class="form-group">
+					<label for="fin">Fin</label> : <input type="text" name="fin"
+						id="fin" class="form-control" value="<%=request.getAttribute("dFin")%>"/>
+				</div>
 			</div>
-			<div class="checkbox">
-				<label><input type="checkbox" checked="checked" name="etat"
-					value="EC">En cours</label>
+			<!-- Etat -->
+			<%
+			ArrayList<String> listeEtat = new ArrayList<String>();
+			listeEtat = (ArrayList<String>) request.getAttribute("listeEtat");			
+						
+			%>
+			
+			<div class="col-xs-6 col-md-3">
+				<div class="form-group">
+					<label for="checkbox">Etat</label>
+					<div class="checkbox">
+						<label><input type="checkbox" <%if(listeEtat.contains("ATT")){%> checked="checked" <%}%>
+							name="etat" value="ATT">En attente</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" <%if(listeEtat.contains("EC")){%> checked="checked" <%}%>
+							name="etat" value="EC">En cours</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" <%if(listeEtat.contains("TER")){%> checked="checked" <%}%>
+							name="etat" value="TER">Terminer</label>
+					</div>
+				</div>
+			</div>
+			<!-- Actualisation-->
+			<div class="col-xs-6 col-md-3">
+				<div class="form-group" id="div_actu">
+					<button type="submit" name="actu" id="actu" class="btn btn-default">Actualiser</button>
+				</div>
 			</div>
 		</div>
-		<!-- Employe -->
-		<div class="col-xs-6 col-md-3">
+	</form>
+</div>
 
-		</div>
-		<!-- Actualisation-->
-		<div class="col-xs-6 col-md-3">
-			<button type="submit" name="actu" id="actu" class="btn btn-default">Actualiser</button>
-		</div>
-	</div>
-</form>
-
-<br>
-
-<div class="col-md-10">
+<div class="col-md-9">
 		<div id="table-commandes">
 			<table class="table">
 				<thead>
@@ -75,18 +89,18 @@
 					<% // On recupère la liste des commandes 
 				ArrayList<Commande> listeCommandes = new ArrayList<Commande>();
 				listeCommandes = (ArrayList<Commande>) request.getAttribute("listeCommande");
-				int i;
-				for (i=0;i==listeCommandes.size()-1;i++) { %>
+				int i;%>
+				<%for (Commande commande : listeCommandes) {%>
 					<tr>
-						<td><%=listeCommandes.get(i).getId_commande()%></td>
-						<td><%=listeCommandes.get(i).getDate_commande()%></td>
-						<td><%=listeCommandes.get(i).getEtat()%></td>
-						<td><%=listeCommandes.get(i).getClient()%></td>
-						<td><%=listeCommandes.get(i).getAdresse()%></td>
-						<td><%=listeCommandes.get(i).getEmploye()%></td>
-						<td><%=listeCommandes.get(i).getDate_debut_prepa()%></td>
+						<td><%=commande.getId_commande()%></td>
+						<td><%=commande.getDate_commande()%></td>
+						<td><%=commande.getEtat()%></td>
+						<td><%=commande.getClient()%></td>
+						<td><%=commande.getAdresse()%></td>
+						<td><%=commande.getEmploye()%></td>
+						<td><%=commande.getDate_debut_prepa()%></td>
 					</tr>
-					<%}%>
+				<%}%>					
 				</tbody>
 			</table>
 		</div>

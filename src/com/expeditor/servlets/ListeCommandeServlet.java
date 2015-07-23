@@ -49,6 +49,8 @@ public class ListeCommandeServlet extends HttpServlet {
 		ArrayList<Commande> listeCommandes = new ArrayList<Commande>();
 		Date dDebut = null;
 		Date dFin = null;
+		String debut = "";
+		String fin = "";
 		
 		String isActu =  request.getParameter("actu");
 		
@@ -57,33 +59,36 @@ public class ListeCommandeServlet extends HttpServlet {
 			String[] checkboxes = request.getParameterValues("etat");		 
 			if (checkboxes != null) {		    		
 			    for (int i = 0; i < checkboxes.length; ++i) {   		      
-			        listeEtats.add(checkboxes[i]);
+			        listeEtats.add(checkboxes[i]);			        
 			    }
 			}
 			
 			/* Date */
-			String debut = request.getParameter("debut");
-			String fin = request.getParameter("fin");
-			
+			debut = request.getParameter("debut");
+			fin = request.getParameter("fin");
+
 			if(fin != "" && debut != ""){
 				//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				try {
-					dDebut 	= sdf.parse(debut);
+					dDebut 	= sdf.parse(debut);					
 					dFin 	= sdf.parse(fin);
 				} catch (ParseException e) {			
 					e.printStackTrace();
 				}  
-			}
-						
+			}	
 		}else{
 			listeEtats.add("ATT");
 			listeEtats.add("EC");
 		}
 		
+		request.setAttribute("dDebut", debut);
+		request.setAttribute("dFin", fin);
+		request.setAttribute("listeEtat", listeEtats);
+		
+		
 		// -- Recupère la liste des commandes
-		//listeCommandes = CommandeDB.selectCommandes(listeEtats, dDebut, dFin,0);
-				
+		listeCommandes = CommandeDB.selectCommandes(listeEtats, dDebut, dFin,0);			
 		
 		// -- Envoie vers la jsp
 		request.setAttribute("listeCommande", listeCommandes);

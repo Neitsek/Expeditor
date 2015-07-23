@@ -1,7 +1,21 @@
 @CHARSET "ISO-8859-1";
 
-body { padding-top: 70px; }
+body { 
+	padding-top: 70px; 
+	
+}
 
 .vcenter {
     margin-top : 20%;
 }
+
+
+.marge_gauche
+{
+	margin-left : 7%;
+}
+
+/* #div_actu
+{
+	padding-top : 25%;
+} */

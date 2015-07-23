@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -174,12 +176,14 @@ public class CommandeDB {
 
 		// gestion de la date
 		if(date_debut!=null && date_fin!=null){
-			query += "AND date_commande BETWEEN '" + new java.sql.Date(date_debut.getTime()) + "' AND '" + new java.sql.Date(date_fin.getTime()) + "'";	
+			new java.sql.Date(date_debut.getTime());
+			DateFormat df = new SimpleDateFormat("yyyy-dd-MM");			
+			query += "AND date_commande BETWEEN '" + df.format(date_debut) + "' AND '" + df.format(date_fin) + "'";
 		}
 		
 		if(id_employe!=0)
 		{
-			query += "AND Employe.id_commande ='"+id_employe+"' ";
+			query += "AND Employe.id_employe ='"+id_employe+"' ";
 		}
 		
 		query += "ORDER BY id_commande";
@@ -197,9 +201,15 @@ public class CommandeDB {
 //		for (Commande com : listCommande) {
 //			com.setArticles(getArticles(com.getId_commande()));
 //		}
-		
+
 		return listCommande;
 	}
+	
+
+
+	
+	
+	
 	
 	public static Commande selectCommandeLaPlusUrgente() {
 		Commande com = null;
