@@ -93,4 +93,14 @@
     <servlet-name>TerminerCommandeServlet</servlet-name>
     <url-pattern>/TerminerCommande</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ReloadSuiviCommandeAjaxServlet</display-name>
+    <servlet-name>ReloadSuiviCommandeAjaxServlet</servlet-name>
+    <servlet-class>com.expeditor.servlets.ReloadSuiviCommandeAjaxServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReloadSuiviCommandeAjaxServlet</servlet-name>
+    <url-pattern>/ReloadSuiviCommandeAjaxServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

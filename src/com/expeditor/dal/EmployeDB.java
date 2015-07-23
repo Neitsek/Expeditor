@@ -13,7 +13,7 @@ public class EmployeDB {
 	private static final String SELECT_ALL = "select * from Employe";
 	private static final String SELECT_ALL_EMPLOYE = "select * from Employe where is_manager = 0";
 	private static final String SELECT_ONE = "select * from Employe where login = ? and password = ?";
-	
+	private static final String SELECT_ONE_ID = "select * from Employe where id_employe = ?";
 	private EmployeDB() {
 		
 	}
@@ -127,5 +127,26 @@ public class EmployeDB {
 		}
 		return listEmploye;
 	}
+	
+	
+	public static Employe getOneId(Integer id) {
+		Employe employe = null;
+		ResultSet rs = null;
+		try {
+			rs = ConnectionDB.select(SELECT_ONE_ID, id);
+
+			while(rs.next())
+			{
+				employe = build(rs);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return employe;
+	}
+	
+	
 	
 }

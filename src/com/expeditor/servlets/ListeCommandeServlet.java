@@ -67,8 +67,7 @@ public class ListeCommandeServlet extends HttpServlet {
 			debut = request.getParameter("debut");
 			fin = request.getParameter("fin");
 
-			if(fin != "" && debut != ""){
-				//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			if(fin != "" && debut != ""){				
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 				try {
 					dDebut 	= sdf.parse(debut);					

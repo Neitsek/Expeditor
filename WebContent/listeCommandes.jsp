@@ -51,15 +51,15 @@
 					<label for="checkbox">Etat</label>
 					<div class="checkbox">
 						<label><input type="checkbox" <%if(listeEtat.contains("ATT")){%> checked="checked" <%}%>
-							name="etat" value="ATT" onClick="maFonction();">En attente</label>
+							name="etat" id="ATT" value="ATT" onClick="maFonction();">En attente</label>
 					</div>
 					<div class="checkbox">
 						<label><input type="checkbox" <%if(listeEtat.contains("EC")){%> checked="checked" <%}%>
-							name="etat" value="EC" onClick="maFonction();">En cours</label>
+							name="etat" id="EC" value="EC" onClick="maFonction();">En cours</label>
 					</div>
 					<div class="checkbox">
 						<label><input type="checkbox" <%if(listeEtat.contains("TER")){%> checked="checked" <%}%>
-							name="etat" value="TER" onClick="maFonction();">Terminer</label>
+							name="etat" id="TER" value="TER" onClick="maFonction();">Terminer</label>
 					</div>
 				</div>
 			</div>

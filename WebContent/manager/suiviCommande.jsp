@@ -11,7 +11,7 @@
 
 <% ArrayList<Employe> listeEmploye = (ArrayList<Employe>) request.getAttribute("listeEmploye"); %>
 
-	<form id="filtrage" method="POST" action="" class="col-sm-12">		
+	<form method="POST" action="<%=request.getContextPath()%>/SuiviCommandeEmploye" class="col-sm-12">		
 		<div class="col-sm-5">
 			<div class="form-group">
 				<select id="selectEmploye" name="employeSel" class="selectpicker">
@@ -22,9 +22,10 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<select id="selectEtat" class="selectpicker" multiple data-selected-text-format="count>3">
-				    <option value="TER" selected="selected">Terminé</option>
-				    <option value="ATT">En attente</option>
+				<select id="selectEtat" name="etatSel" class="selectpicker" multiple data-selected-text-format="count>3">
+				     <option value="ATT">En attente</option>
+				    <option value="TER">Terminé</option>
+				   
 				    <option value="EC">En cours</option>
 				</select>
 			</div>
@@ -32,7 +33,7 @@
 		<div class="col-sm-5">
 			<div class="form-group">
 				<div class="input-group date">
-			    	<input type="text" class="form-control dateCommande" id="dateDébut" name="dateDébut"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+			    	<input type="text" class="form-control dateCommande" id="dateDébut" name="dateDebut"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
 			    </div>
 		    </div>
 		    <div class="form-group">
@@ -42,6 +43,7 @@
 		    </div>
 		</div>  
 		<div class="form-group">
+			<input type="hidden" name="reload" value="reload"/>
 			<input type="submit" id="filtrer" class="btn btn-default" value="Rechercher"/>
 		</div>
 	</form>
@@ -71,11 +73,15 @@
   			  			</tr>
   					<% 
   				} 
+			}else {
+				%>
+		  			<tr>
+		  				<td colspan="6" class="text-center">Aucune commande</td>	
+		  			</tr>
+				<% 
 			}
 			%>
   		</tbody>
 	</table>
-	
-	
 	</body>
 </html>
