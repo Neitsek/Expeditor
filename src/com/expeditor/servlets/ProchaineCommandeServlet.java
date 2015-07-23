@@ -34,7 +34,9 @@ public class ProchaineCommandeServlet extends HttpServlet {
 			if (prochaine != null) {
 				request.getSession().setAttribute("commandeEnCours", prochaine);
 			}
-			Logger.affiche("[ERROR][ProchaineCommandeServlet] Commande non trouvée");
+			else {
+				Logger.affiche("[ERROR][ProchaineCommandeServlet] Commande non trouvée");
+			}
 			
 			request.getRequestDispatcher("/TraitementCommande").forward(request, response);
 		}

@@ -82,7 +82,7 @@ public class ListeCommandeServlet extends HttpServlet {
 		}
 		
 		// -- Recupère la liste des commandes
-		listeCommandes = CommandeDB.selectCommandes(listeEtats, dDebut, dFin,0);
+		//listeCommandes = CommandeDB.selectCommandes(listeEtats, dDebut, dFin,0);
 				
 		
 		// -- Envoie vers la jsp

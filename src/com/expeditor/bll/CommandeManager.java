@@ -1,5 +1,7 @@
 package com.expeditor.bll;
 
+import java.util.Date;
+
 import com.expeditor.bo.Commande;
 import com.expeditor.dal.CommandeDB;
 
@@ -13,6 +15,8 @@ public class CommandeManager {
 		
 		if (commande != null) {
 			commande.setEmploye(id_employe);
+			commande.setEtat("EC");
+			commande.setDate_debut_prepa(new Date());
 			CommandeDB.updateCommande(commande);
 		
 			return commande;

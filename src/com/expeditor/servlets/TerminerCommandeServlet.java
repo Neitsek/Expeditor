@@ -1,22 +1,22 @@
 package com.expeditor.servlets;
 
 import java.io.IOException;
+import java.util.Date;
+
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.expeditor.bo.Commande;
-import com.expeditor.bo.Employe;
 import com.expeditor.dal.CommandeDB;
+import com.expeditor.dal.ConnectionDB;
 
-public class TraitementCommandeServlet extends HttpServlet {
+public class TerminerCommandeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private static String ServletPath = "/employe/TraitementCommande";
-
-    public TraitementCommandeServlet() {
+       
+    public TerminerCommandeServlet() {
+        super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,19 +26,19 @@ public class TraitementCommandeServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		execute(request, response);
 	}
-	
+
 	private void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Commande commandeEnCours = (Commande) request.getSession().getAttribute("commandeEnCours");
+		Commande com = (Commande)request.getSession().getAttribute("commandeEnCours");
 		
-		if (commandeEnCours == null) {
-			Employe user = (Employe) request.getSession().getAttribute("login");
-			
-			commandeEnCours = CommandeDB.selectCommandeEnCours(user.getId());
-			
-			request.getSession().setAttribute("commandeEnCours", commandeEnCours);
-		}
+		com.setEtat("TER");
+		com.setDate_fin_prepa(new Date());
 		
+		CommandeDB.updateCommande(com);
 		
-		request.getRequestDispatcher("/employe/traitementCommande.jsp").forward(request, response);
+		request.getSession().removeAttribute("commandeEnCours");
+		request.getSession().removeAttribute("impression");
+		
+		request.getRequestDispatcher("/TraitementCommande").forward(request, response);
 	}
+
 }

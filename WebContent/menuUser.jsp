@@ -1,8 +1,8 @@
 <%@ page import="com.expeditor.bo.*" %>
 <%
 	Commande commandeEnCours = (Commande)request.getSession().getAttribute("commandeEnCours");
-	Boolean commandeRemplie = false;//(Boolean)request.getAttribute("commandeRemplie");
-	Boolean bonDeLivraisonImprime = false;//(Boolean)request.getAttribute("bdlImprime");
+	Boolean impression = (Boolean)request.getSession().getAttribute("impression");
+	impression = impression != null;
 %>
 	
 	<ul class="nav navbar-nav">
@@ -14,19 +14,16 @@
 		
 		<% 	
 			}
-			else if (!bonDeLivraisonImprime) {
+			else if (!impression) {
 		%>
 		
-		<li <% if (!commandeRemplie) { %>
-			class="disabled"
-			<% } %>
-		><a href="#">Impression du bon de livraison</a></li>
+		<li id="btnImpression" class="disabled"><a href="<%= request.getContextPath() %>/Impression">Impression du bon de livraison</a></li>
 		
 		<% 	
 			}
 			else {
 		%>
-			<li><a href="#">Terminer la commande</a></li>
+			<li id="btnTerminer"><a href="<%= request.getContextPath() %>/TerminerCommande">Terminer la commande</a></li>
 		<%
 			}
 		%>

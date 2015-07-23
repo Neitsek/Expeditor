@@ -73,4 +73,24 @@
     <servlet-name>ProchaineCommandeServlet</servlet-name>
     <url-pattern>/ProchaineCommande</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ImpressionServlet</display-name>
+    <servlet-name>ImpressionServlet</servlet-name>
+    <servlet-class>com.expeditor.servlets.ImpressionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ImpressionServlet</servlet-name>
+    <url-pattern>/Impression</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TerminerCommandeServlet</display-name>
+    <servlet-name>TerminerCommandeServlet</servlet-name>
+    <servlet-class>com.expeditor.servlets.TerminerCommandeServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TerminerCommandeServlet</servlet-name>
+    <url-pattern>/TerminerCommande</url-pattern>
+  </servlet-mapping>
 </web-app>

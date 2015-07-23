@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Date;
 
 import com.expeditor.bll.Logger;
@@ -59,7 +60,9 @@ public class ConnectionDB {
 			for (Object parameter : parameters) {
 				cpt++;
 				
-				if (parameter instanceof Integer) {
+				if (parameter == null) {
+					statement.setNull(cpt, Types.VARCHAR);
+				} else if (parameter instanceof Integer) {
 					statement.setInt(cpt, (Integer)parameter);
 				} else if (parameter instanceof String) {
 					statement.setString(cpt, (String)parameter);
@@ -95,9 +98,12 @@ public class ConnectionDB {
 
 			int cpt = 0;
 			for (Object parameter : parameters) {
-				cpt++;
 				
-				if (parameter instanceof Integer) {
+				cpt++; 
+				
+				if (parameter == null) {
+					statement.setNull(cpt, Types.VARCHAR);
+				} else if (parameter instanceof Integer) {
 					statement.setInt(cpt, (Integer)parameter);
 				} else if (parameter instanceof String) {
 					statement.setString(cpt, (String)parameter);

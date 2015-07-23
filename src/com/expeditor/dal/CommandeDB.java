@@ -216,8 +216,9 @@ public class CommandeDB {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		com.setArticles(getArticles(com.getId_commande()));
+		if (com != null) {
+			com.setArticles(getArticles(com.getId_commande()));
+		}
 		
 		return com;
 	}
@@ -227,7 +228,7 @@ public class CommandeDB {
 	}
 	
 	public static void updateCommande (Integer id_commande, Date date_commande, String client, String adresse, Integer employe, Date date_debut_prepa, Date date_fin_prepa, String etat) {
-		ConnectionDB.update(UPDATE, id_commande, date_commande, client, adresse, employe, date_debut_prepa, date_fin_prepa, etat );
+		ConnectionDB.update(UPDATE, date_commande, client, adresse, employe, date_debut_prepa, date_fin_prepa, etat, id_commande );
 	}
 	
 	public static Commande selectCommandeEnCours(Integer id_employe) {
@@ -236,8 +237,9 @@ public class CommandeDB {
 		ResultSet rs = ConnectionDB.select(SELECT_COMMANDEENCOURS, id_employe);
 		
 		try {
-			while(rs.next()) {
+			if (rs.next()) {
 				com = buildCommande(rs);
+				com.setArticles(getArticles(com.getId_commande()));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
