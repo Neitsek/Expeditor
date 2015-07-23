@@ -198,9 +198,7 @@ public class CommandeDB {
 			e.printStackTrace();
 		}
 		
-//		for (Commande com : listCommande) {
-//			com.setArticles(getArticles(com.getId_commande()));
-//		}
+
 
 		return listCommande;
 	}

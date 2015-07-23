@@ -51,15 +51,15 @@
 					<label for="checkbox">Etat</label>
 					<div class="checkbox">
 						<label><input type="checkbox" <%if(listeEtat.contains("ATT")){%> checked="checked" <%}%>
-							name="etat" value="ATT">En attente</label>
+							name="etat" value="ATT" onClick="maFonction();">En attente</label>
 					</div>
 					<div class="checkbox">
 						<label><input type="checkbox" <%if(listeEtat.contains("EC")){%> checked="checked" <%}%>
-							name="etat" value="EC">En cours</label>
+							name="etat" value="EC" onClick="maFonction();">En cours</label>
 					</div>
 					<div class="checkbox">
 						<label><input type="checkbox" <%if(listeEtat.contains("TER")){%> checked="checked" <%}%>
-							name="etat" value="TER">Terminer</label>
+							name="etat" value="TER" onClick="maFonction();">Terminer</label>
 					</div>
 				</div>
 			</div>
@@ -126,6 +126,15 @@
 		    autoclose: true
 		});
 	});
+	
+	function maFonction(){
+		if((document.getElementById("ATT").checked == false) && (document.getElementById("EC").checked == false)&& (document.getElementById("TER").checked == false)){
+	        document.getElementById('actu').disabled = 'disabled';
+	    }else{
+	    	document.getElementById('actu').disabled = '';
+	    }
+	}
+	
 </script>
 
 </body>
