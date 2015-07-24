@@ -1,7 +1,7 @@
 package com.expeditor.servlets;
 
 import java.io.IOException;
-import java.util.Date;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,43 +58,38 @@ public class SuiviCommandeEmploye extends HttpServlet {
 			
 			//si la page est appelé pour un filtrage
 			if(request.getParameter("reload") != null){
-				System.out.println(request.getParameter("etatSel"));
-				Date dateDeb = null;
-				Date dateF = null;
-				String dateDebut = null;
-				String dateFin = null;
-				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-				if(request.getParameter("dateDebut") != ""){
-					dateDebut = request.getParameter("dateDebut");
-				}
-				if(request.getParameter("dateFin") != ""){
-					dateFin = request.getParameter("dateFin");
-				}
-				try {
-					if(dateDebut != ""){
-						dateDeb = formatter.parse(dateDebut);
+				if(Integer.parseInt(request.getParameter("employeSel")) == 0){
+					Object info = "Aucun filtrage possible, veuillez sélectionner un employé.";
+					request.setAttribute("info", info);
+				}else{
+					java.util.Date dateDeb = null;
+					java.util.Date dateF = null;
+					String dateDebut = null;
+					String dateFin = null;
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					
+					if(request.getParameter("dateDebut") != null && request.getParameter("dateFin") != null){
+						dateDebut = request.getParameter("dateDebut");
+						dateFin = request.getParameter("dateFin");
 					}
-					if(dateFin != ""){
-						dateF = formatter.parse(dateFin);
+					
+					if(dateDebut != null && dateFin != null){
+						try {
+							dateDeb = sdf.parse(dateDebut);
+							dateF = sdf.parse(dateFin);
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
 					}
-			 
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				ArrayList<String> listeEtat = new ArrayList<String>();
-				for (String etat : request.getParameterValues("etatSel")){
-					listeEtat.add(etat);
-				}
-				System.out.println(listeEtat); 
-				System.out.println(dateDeb);
-				System.out.println(dateF);
-				System.out.println(Integer.parseInt(request.getParameter("employeSel")));
-				
-				ArrayList<Commande> listeCommande = CommandeDB.selectCommandes(listeEtat, dateDeb, dateF, Integer.parseInt(request.getParameter("employeSel")));
-				
-				System.out.println(listeCommande);
-				if (listeCommande != null){
-					request.setAttribute("listeCommande", listeCommande);
+					ArrayList<String> listeEtat = new ArrayList<String>();
+					for (String etat : request.getParameterValues("etatSel")){
+						listeEtat.add(etat);
+					}				
+					ArrayList<Commande> listeCommande = CommandeDB.selectCommandes(listeEtat, dateDeb, dateF,  Integer.parseInt(request.getParameter("employeSel")));
+					System.out.println("liste commande : "+listeCommande);
+					if (listeCommande != null){
+						request.setAttribute("listeCommande", listeCommande);
+					}
 				}
 			}
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/manager/suiviCommande.jsp");

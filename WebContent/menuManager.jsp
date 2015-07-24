@@ -2,5 +2,6 @@
 	<ul class="nav navbar-nav">
 		<li><a href="<%=request.getContextPath()%>/ListeCommandeServlet">Liste des commandes</a></li>
 	    <li><a href="<%=request.getContextPath()%>/SuiviCommandeEmploye">Suivi de commandes par salarié</a></li>
+	   <!--  <li class="disabled"><a href="/ImportCommandeServlet">Import de commande</a></li>--->
 	</ul>
 

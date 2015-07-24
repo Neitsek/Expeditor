@@ -1,0 +1,19 @@
+@CHARSET "ISO-8859-1";
+
+.marge_gauche
+{
+	margin-left : 7%;
+}
+
+#submit{
+	{margin-top:5%}
+}
+
+#tableCommande, #import{
+	margin-top : 10%;
+}
+body{
+	margin-top : 3%;
+	margin-left : 5%;
+	margin-right: 5%;
+}
