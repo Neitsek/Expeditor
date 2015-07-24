@@ -15,11 +15,13 @@
 		<% 	
 			}
 			else if (!impression) {
+								
 		%>
 		
-		<li id="btnImpression" class="disabled"><a href="<%= request.getContextPath() %>/Impression">Impression du bon de livraison</a></li>
-		
+		<li id="btnImpression" class="disabled"><a href="<%= request.getContextPath() %>/Impression" onClick="Impression();">Impression du bon de livraison</a></li> 
+		<!-- <li id="btnImpression" class="disabled"><a href="javascript:window.print()">Impression du bon de livraison</a></li> -->
 		<% 	
+			
 			}
 			else {
 		%>
@@ -29,4 +31,12 @@
 		%>
        
     </ul>
+    
+    
+
+<script type="text/javascript">
+	function Impression(){
+		javascript:window.print();
+	}	
+</script>
      
