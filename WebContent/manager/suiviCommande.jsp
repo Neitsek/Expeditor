@@ -41,7 +41,6 @@ listeCommande = (ArrayList<Commande>) request.getAttribute("listeCommande"); %>
 			<div class="form-group">
 				<select id="selectEtat" name="etatSel" class="selectpicker" multiple data-selected-text-format="count>3">
 				    <option value="TER" selected="selected">Terminé</option>
-				    <option value="ATT">En attente</option>
 				    <option value="EC">En cours</option>
 				</select>
 			</div>
