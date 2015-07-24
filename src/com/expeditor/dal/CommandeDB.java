@@ -203,12 +203,6 @@ public class CommandeDB {
 		return listCommande;
 	}
 	
-
-
-	
-	
-	
-	
 	public static Commande selectCommandeLaPlusUrgente() {
 		Commande com = null;
 		ResultSet rs = null;
@@ -254,5 +248,62 @@ public class CommandeDB {
 		}
 		
 		return com;
+	}
+	
+	private static String SELECT2 = "SELECT * FROM Commande, Employe " +
+			"WHERE Commande.employe = Employe.id_employe ";
+	
+	/**
+	 * sélection des commandes	 
+	 * @param etat
+	 * @param date_debut
+	 * @param date_fin
+	 */
+	public static ArrayList<Commande> selectCommandesSuivi(ArrayList<String> listeEtat, Date date_debut, Date date_fin, int id_employe) {
+		ArrayList<Commande> listCommande = new ArrayList<Commande>();
+		// -- construction de la requete
+		// gestion des états
+		String query = SELECT2;
+		if (listeEtat.size()>0){
+
+			int i = 0;
+			query += "AND etat IN(";
+			for (int j = 0; j < listeEtat.size(); j++) {					
+				i++;
+				query += "'" + listeEtat.get(j) + "'";
+				if (listeEtat.size()!=i) {
+					query +=",";
+				}
+			}
+			query += ") ";
+		}
+
+		// gestion de la date
+		if(date_debut!=null && date_fin!=null){
+			new java.sql.Date(date_debut.getTime());
+			DateFormat df = new SimpleDateFormat("yyyy-dd-MM");			
+			query += "AND date_commande BETWEEN '" + df.format(date_debut) + "' AND '" + df.format(date_fin) + "'";
+		}
+		
+		if(id_employe!=0)
+		{
+			query += "AND Employe.id_employe ='"+id_employe+"' ";
+		}
+		
+		query += "ORDER BY id_commande";
+
+		ResultSet rs = ConnectionDB.select(query);
+		
+		try {
+			while(rs.next()) {
+				listCommande.add(buildCommande(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+
+
+		return listCommande;
 	}
 }

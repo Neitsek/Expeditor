@@ -85,7 +85,7 @@ public class SuiviCommandeEmploye extends HttpServlet {
 					for (String etat : request.getParameterValues("etatSel")){
 						listeEtat.add(etat);
 					}				
-					ArrayList<Commande> listeCommande = CommandeDB.selectCommandes(listeEtat, dateDeb, dateF,  Integer.parseInt(request.getParameter("employeSel")));
+					ArrayList<Commande> listeCommande = CommandeDB.selectCommandesSuivi(listeEtat, dateDeb, dateF,  Integer.parseInt(request.getParameter("employeSel")));
 					System.out.println("liste commande : "+listeCommande);
 					if (listeCommande != null){
 						request.setAttribute("listeCommande", listeCommande);
