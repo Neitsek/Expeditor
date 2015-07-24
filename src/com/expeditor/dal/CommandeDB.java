@@ -24,7 +24,7 @@ public class CommandeDB {
 			" (date_commande,client,adresse,employe,date_debut_prepa,date_fin_prepa,etat)" +
 			" values(?,?,?,?,?,?,?)";
 	
-	private static final String SELECT_PAR_URGENCE = "SELECT * FROM Commande WHERE etat = 'ATT' AND date_commande = ( SELECT MIN(date_commande) FROM Commande WHERE etat = 'ATT' );";
+	private static final String SELECT_PAR_URGENCE = "SELECT * FROM Commande WHERE etat = 'ATT' AND employe IS NULL AND date_commande = ( SELECT MIN(date_commande) FROM Commande WHERE etat = 'ATT' );";
 	
 	private static final String UPDATE = "UPDATE commande SET date_commande = ?, client = ?, adresse = ?, employe = ?, date_debut_prepa = ?, date_fin_prepa = ?, etat = ? WHERE id_commande = ?";
 	
