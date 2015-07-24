@@ -28,15 +28,6 @@
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-8">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox"> Se souvenir de moi
-        </label>
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-8">
       <button type="submit" class="btn btn-default">Se connecter</button>
     </div>
   </div>
