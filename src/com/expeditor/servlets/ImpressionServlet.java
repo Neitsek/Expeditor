@@ -26,8 +26,7 @@ public class ImpressionServlet extends HttpServlet {
 	private void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		request.getSession().setAttribute("impression", true);
-		request.setAttribute("imp", true);
-		
+		request.getSession().setAttribute("imp", true);
 		request.getRequestDispatcher("/TraitementCommande").forward(request, response);
 	}
 

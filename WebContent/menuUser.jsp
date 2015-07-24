@@ -36,27 +36,3 @@ a.disabled {
 		%>
        
     </ul>
-   
-
-    
-
-<script type="text/javascript">
-	function Impression(){
-		javascript:window.print();
-		
-		setTimeout('RedirectionJavascript()', 5000);
-	}
-	function RedirectionJavascript(){
-		document.location.href="<%= request.getContextPath() %>/Impression";		
-	}
-	
- 	$('a.disabled').click(function(){
-		if(<%=impression%>==true){
-			document.location.href="<%= request.getContextPath() %>/Impression";			
-		}else{
-			return false;
-		}
-	}); 
-	
-</script>
-     

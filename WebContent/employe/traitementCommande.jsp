@@ -3,7 +3,9 @@
 <%
 	Commande enCours = (Commande)request.getSession().getAttribute("commandeEnCours");
 	Boolean impression = (Boolean)request.getSession().getAttribute("impression");
+	Boolean imp = (Boolean) request.getSession().getAttribute("imp");
 	impression = impression != null;
+	imp = imp != null;
 	double poidsCarton = 300;
 	if (enCours != null) {
 %>
@@ -75,7 +77,9 @@
 </div>
 <script type="text/javascript">
 	$(window).load(function() {
-		
+		if(<%=imp%>==true){
+			javascript:window.print();			
+		}
 		<% 
 			cpt = 0;
 			for(CommandeArticle art : enCours.getArticles()) {
@@ -105,13 +109,9 @@
 			
 		});
 		
-		<% } %>
+		<% }
+		request.getSession().removeAttribute("imp");%>
 		
-	});
-	$(window).load(function() {
-		if(<%=impression%>==true){
-			javascript:window.print();			
-		}
 	});
 </script>
 <% } %>
