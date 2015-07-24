@@ -81,7 +81,7 @@
 						<td><%=commande.getEtat()%></td>
 						<td><%=commande.getClient()%></td>
 						<td><%=commande.getAdresse()%></td>
-						<td><%=EmployeManager.nomPrenom(commande.getEmploye())%></td>
+						<td><% if(commande.getEmploye()>0){%> <%=EmployeManager.nomPrenom(commande.getEmploye())%><%} %></td>
 						<td><%=commande.getDate_debut_prepa()%></td>
 					</tr>
 				<%}

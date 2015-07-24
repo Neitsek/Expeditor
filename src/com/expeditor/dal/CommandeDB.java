@@ -146,8 +146,8 @@ public class CommandeDB {
 
 
 
-	private static String SELECT = "SELECT * FROM Commande, Employe " +
-			"WHERE Commande.employe = Employe.id_employe ";
+	private static String SELECT = "SELECT * FROM Commande " +
+			"WHERE 0=0 ";
 
 	/**
 	 * sélection des commandes	 

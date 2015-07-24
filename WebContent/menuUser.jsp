@@ -4,6 +4,12 @@
 	Boolean impression = (Boolean)request.getSession().getAttribute("impression");
 	impression = impression != null;
 %>
+<style type="text/css">
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+</style>
 	
 	<ul class="nav navbar-nav">
 		<%
@@ -30,7 +36,8 @@
 		%>
        
     </ul>
-    
+   
+
     
 
 <script type="text/javascript">
@@ -42,5 +49,14 @@
 	function RedirectionJavascript(){
 		document.location.href="<%= request.getContextPath() %>/Impression";		
 	}
+	
+ 	$('a.disabled').click(function(){
+		if(<%=impression%>==true){
+			document.location.href="<%= request.getContextPath() %>/Impression";			
+		}else{
+			return false;
+		}
+	}); 
+	
 </script>
      
