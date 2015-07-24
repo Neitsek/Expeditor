@@ -24,7 +24,6 @@ public class ImpressionServlet extends HttpServlet {
 	}
 
 	private void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO : Gérer l'impression du bon de livraison
 	
 		request.getSession().setAttribute("impression", true);
 		
