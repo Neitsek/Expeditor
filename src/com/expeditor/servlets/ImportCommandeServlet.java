@@ -45,7 +45,7 @@ public class ImportCommandeServlet extends HttpServlet {
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/manager/import.jsp");
 		requestDispatcher.forward(request, response) ;
 	}else{
-		Object error = "vous n'êtes pas connecté, veuillez vous connecter.";
+		Object error = "Vous n'êtes pas connecté, veuillez vous connecter.";
 		request.setAttribute("error", error);
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.jsp");
 		requestDispatcher.forward(request, response) ;
